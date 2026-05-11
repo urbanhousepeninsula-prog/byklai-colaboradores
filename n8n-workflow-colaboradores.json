@@ -1,0 +1,101 @@
+{
+  "name": "byklai — Colaboradores",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "byklai-colaboradores",
+        "responseMode": "onReceived",
+        "options": { "allowedOrigins": "*" }
+      },
+      "id": "node-001",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 300],
+      "webhookId": "byklai-colaboradores"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "105aRA9ISBRLZXDvAo6hb_Ig5hzMtqxwZdOnLhwf1Sm8",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Colaboradores",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Timestamp": "={{ $now.toISO() }}",
+            "Nombre": "={{ $json.body.nombre }}",
+            "Email": "={{ $json.body.email }}",
+            "Teléfono": "={{ $json.body.telefono }}",
+            "Ciudad": "={{ $json.body.ciudad }}",
+            "Perfil": "={{ $json.body.perfil }}",
+            "Experiencia": "={{ $json.body.experiencia }}",
+            "Link Portafolio": "={{ $json.body.linkPortafolio || '' }}",
+            "Imagen 1": "={{ $json.body.imagen1 || '' }}",
+            "Imagen 2": "={{ $json.body.imagen2 || '' }}",
+            "Imagen 3": "={{ $json.body.imagen3 || '' }}",
+            "Comentarios": "={{ $json.body.comentarios || '' }}"
+          },
+          "matchingColumns": [],
+          "schema": []
+        },
+        "options": {}
+      },
+      "id": "node-002",
+      "name": "Google Sheets — Colaboradores",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [460, 300],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "PENDIENTE_CONECTAR",
+          "name": "Google Sheets"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "hola@byklai.com",
+        "fromName": "Byklai",
+        "toEmail": "armando@byklai.com",
+        "subject": "=Nuevo colaborador — {{ $('Webhook').item.json.body.nombre }} · {{ $('Webhook').item.json.body.perfil }}",
+        "emailType": "html",
+        "message": "=<div style='font-family:sans-serif;max-width:620px;color:#0a0a0a'><h2 style='font-size:18px;border-bottom:2px solid #0a0a0a;padding-bottom:10px;margin-bottom:20px'>Nuevo colaborador registrado</h2><table style='width:100%;border-collapse:collapse;font-size:13px'><tr style='background:#f2f1ed'><td style='padding:8px 12px;border:1px solid #ddd;font-weight:600'>Nombre</td><td style='padding:8px 12px;border:1px solid #ddd'>{{ $('Webhook').item.json.body.nombre }}</td></tr><tr><td style='padding:8px 12px;border:1px solid #ddd;font-weight:600'>Email</td><td style='padding:8px 12px;border:1px solid #ddd'>{{ $('Webhook').item.json.body.email }}</td></tr><tr style='background:#f2f1ed'><td style='padding:8px 12px;border:1px solid #ddd;font-weight:600'>Teléfono</td><td style='padding:8px 12px;border:1px solid #ddd'>{{ $('Webhook').item.json.body.telefono }}</td></tr><tr><td style='padding:8px 12px;border:1px solid #ddd;font-weight:600'>Ciudad</td><td style='padding:8px 12px;border:1px solid #ddd'>{{ $('Webhook').item.json.body.ciudad }}</td></tr><tr style='background:#f2f1ed'><td style='padding:8px 12px;border:1px solid #ddd;font-weight:600'>Perfil</td><td style='padding:8px 12px;border:1px solid #ddd'>{{ $('Webhook').item.json.body.perfil }}</td></tr><tr><td style='padding:8px 12px;border:1px solid #ddd;font-weight:600'>Experiencia</td><td style='padding:8px 12px;border:1px solid #ddd'>{{ $('Webhook').item.json.body.experiencia }}</td></tr><tr style='background:#f2f1ed'><td style='padding:8px 12px;border:1px solid #ddd;font-weight:600'>Link portafolio</td><td style='padding:8px 12px;border:1px solid #ddd'>{{ $('Webhook').item.json.body.linkPortafolio || '—' }}</td></tr><tr><td style='padding:8px 12px;border:1px solid #ddd;font-weight:600'>Imagen 1</td><td style='padding:8px 12px;border:1px solid #ddd'>{{ $('Webhook').item.json.body.imagen1 ? $('Webhook').item.json.body.imagen1 : '—' }}</td></tr><tr style='background:#f2f1ed'><td style='padding:8px 12px;border:1px solid #ddd;font-weight:600'>Imagen 2</td><td style='padding:8px 12px;border:1px solid #ddd'>{{ $('Webhook').item.json.body.imagen2 ? $('Webhook').item.json.body.imagen2 : '—' }}</td></tr><tr><td style='padding:8px 12px;border:1px solid #ddd;font-weight:600'>Imagen 3</td><td style='padding:8px 12px;border:1px solid #ddd'>{{ $('Webhook').item.json.body.imagen3 ? $('Webhook').item.json.body.imagen3 : '—' }}</td></tr><tr style='background:#f2f1ed'><td style='padding:8px 12px;border:1px solid #ddd;font-weight:600'>Comentarios</td><td style='padding:8px 12px;border:1px solid #ddd'>{{ $('Webhook').item.json.body.comentarios || '—' }}</td></tr></table></div>"
+      },
+      "id": "node-003",
+      "name": "Email — Notificación Armando",
+      "type": "n8n-nodes-base.resend",
+      "typeVersion": 1,
+      "position": [680, 300],
+      "credentials": {
+        "resendApi": {
+          "id": "PENDIENTE_CONECTAR",
+          "name": "Resend account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [{ "node": "Google Sheets — Colaboradores", "type": "main", "index": 0 }]
+      ]
+    },
+    "Google Sheets — Colaboradores": {
+      "main": [
+        [{ "node": "Email — Notificación Armando", "type": "main", "index": 0 }]
+      ]
+    }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "tags": []
+}
