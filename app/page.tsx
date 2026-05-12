@@ -145,6 +145,18 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Convocatoria activa */}
+      <section className="border-t border-line bg-ink text-surface">
+        <div className="max-w-wrap mx-auto px-6 py-10">
+          <p className="font-mono text-[11px] tracking-[0.12em] uppercase text-white/40 mb-3">
+            Convocatoria activa · Mayo 2026
+          </p>
+          <p className="font-serif text-[clamp(1.4rem,2.8vw,2rem)] leading-snug text-white max-w-[580px]">
+            Proyecto activo: buscamos implementador web y especialista en automatización.
+          </p>
+        </div>
+      </section>
+
       {/* Formulario */}
       <section className="border-t border-line">
         <div className="max-w-[720px] mx-auto px-6 py-16 pb-20">
